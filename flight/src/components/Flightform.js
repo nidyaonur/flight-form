@@ -1,35 +1,42 @@
 import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import RangedDate from "./Rangeddate";
+import SingleDate from "./Singledate";
 class FlightForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightType: "",
+      flightType: "twoway",
       from: "",
       to: "",
       startDate: null,
       endDate: null,
-      Adults: "",
-      Children: "",
-      Babies: "",
+      adults: "",
+      children: "",
+      babies: "",
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onCheck = this.onCheck.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
   }
   onChange(e) {
+    console.log(e.target.name);
+    console.log(e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   }
-  onChangeDate(e) {
-    this.setState({ startDate: e[0], endDate: e[1] });
-    console.log(e[0]);
+  onCheck(e) {
+    console.log(e);
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  onChangeDate(dates) {
+    //    this.setState({ startDate: e[0], endDate: e[1] });
+    //const [start, end] = dates;
+    console.log(dates);
   }
   onSubmit(e) {
-    console.log("selamm");
     e.preventDefault();
     const post = {
       title: this.state.title,
@@ -58,18 +65,20 @@ class FlightForm extends Component {
             <fieldset>
               <Form.Group as={Col}>
                 <Form.Check
+                  onChange={this.onChange}
                   inline
                   type="radio"
                   label="Outbound flight + return flight"
                   name="flightType"
-                  id="flightType1"
+                  value="twoway"
                 />
                 <Form.Check
+                  onChange={this.onChange}
                   inline
                   type="radio"
                   label="Just Oneway Flight"
                   name="flightType"
-                  id="flightType2"
+                  value="oneway"
                 />
               </Form.Group>
             </fieldset>
@@ -77,7 +86,11 @@ class FlightForm extends Component {
           <Form.Row>
             <Form.Group as={Col} controlId="formGridFrom">
               <Form.Label>From</Form.Label>
-              <Form.Control as="select" defaultValue="Choose...">
+              <Form.Control
+                onChange={this.onChange}
+                as="select"
+                defaultValue="Choose..."
+              >
                 <option>Choose...</option>
                 <option>...</option>
               </Form.Control>
@@ -89,32 +102,39 @@ class FlightForm extends Component {
                 <option>...</option>
               </Form.Control>
             </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridTo">
+              <Form.Label>Date</Form.Label>
+              <br />
+              {this.state.flightType === "twoway" ? (
+                <RangedDate onChangeDate={this.onChangeDate} />
+              ) : (
+                <SingleDate onChangeDate={this.onChangeDate} />
+              )}
+            </Form.Group>
           </Form.Row>
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.onChangeDate}
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            selectsRange
-          />
 
           <Form.Row>
-            <Form.Group as={Col} controlId="formGridCity">
-              <Form.Label>City</Form.Label>
-              <Form.Control />
-            </Form.Group>
-
             <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>State</Form.Label>
+              <Form.Label>Adults 12+</Form.Label>
               <Form.Control as="select" defaultValue="Choose...">
                 <option>Choose...</option>
                 <option>...</option>
               </Form.Control>
             </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridZip">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control />
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Children 2-12</Form.Label>
+              <Form.Control as="select" defaultValue="Choose...">
+                <option>Choose...</option>
+                <option>...</option>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Babies 0-2</Form.Label>
+              <Form.Control as="select" defaultValue="Choose...">
+                <option>Choose...</option>
+                <option>...</option>
+              </Form.Control>
             </Form.Group>
           </Form.Row>
 
