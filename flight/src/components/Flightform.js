@@ -87,8 +87,8 @@ class FlightForm extends Component {
               </Form.Group>
             </fieldset>
           </Form.Row>
-          <Form.Row className="justify-content-md-center">
-            <Form.Group as={Col} xs lg="2">
+          <Form.Row>
+            <Form.Group as={Col}>
               <Form.Label>From</Form.Label>
               <Form.Control
                 name="from"
@@ -100,7 +100,7 @@ class FlightForm extends Component {
                 <option>Antalya</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group as={Col} xs lg="2">
+            <Form.Group as={Col}>
               <Form.Label>To</Form.Label>
               <Form.Control
                 as="select"
@@ -113,7 +113,7 @@ class FlightForm extends Component {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group as={Col} xs lg="2">
+            <Form.Group as={Col}>
               <Form.Label>Date</Form.Label>
               <br />
               {this.state.flightType === "twoway" ? (
